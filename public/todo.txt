@@ -1,0 +1,5 @@
+TODO
+deploy to heroku
+option to add 3 scores(maybe just space seperated)
+generate games
+settings button
