@@ -108,6 +108,41 @@ function App() {
     setRecommendedGames([...recommendedGames, game]);
   };
 
+  // Helper function to get player stats from standings
+  const getPlayerStats = (player) => {
+    const playerStats = standings.find(p => p.name === player);
+    return playerStats ? (playerStats.wins + playerStats.losses) : Infinity;
+  };
+
+  // Helper function to sum games played
+  const getTotalGamesPlayed = (players) => {
+    return players.reduce((total, player) => {
+      const stats = standings.find(p => p.name === player);
+      return stats ? total + (stats.wins + stats.losses) : total;
+    }, 0);
+  };
+
+  // Sort games with the custom sorting logic
+  const sortedGames = recommendedGames.sort((a, b) => {
+    // Get the lowest wins + losses total for each game
+    const aPlayers = [...a.team1.players, ...a.team2.players];
+    const bPlayers = [...b.team1.players, ...b.team2.players];
+
+    const aMinTotal = Math.min(...aPlayers.map(getPlayerStats));
+    const bMinTotal = Math.min(...bPlayers.map(getPlayerStats));
+
+    if (aMinTotal !== bMinTotal) {
+      return aMinTotal - bMinTotal;
+    }
+
+    // If the lowest wins + losses total is the same, sort by total games played by everyone
+    const aTotalGamesPlayed = getTotalGamesPlayed(aPlayers);
+    const bTotalGamesPlayed = getTotalGamesPlayed(bPlayers);
+
+    return aTotalGamesPlayed - bTotalGamesPlayed;
+  });
+
+
   // Styles
   const primaryColor = '#082F14';
   const backgroundColor = '#f1f4f1'; // light background to contrast with dark primary color
@@ -252,9 +287,9 @@ function App() {
 
         {/* Recommended Games Column */}
         <div style={columnStyle}>
-          <h2 style={h2Style}>Recommended Games</h2>
+          <h2 style={h2Style}>Unplayed Games</h2>
           <ul>
-            {recommendedGames.map((game) => (
+            {sortedGames.map((game) => (
                 <div key={game.id} style={cardStyle}>
               <span>
                {game.team1.players.join(' & ')} vs {game.team2.players.join(' & ')}
