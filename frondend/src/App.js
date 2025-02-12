@@ -55,6 +55,10 @@ function App() {
 
   const handleGameSubmit = async (index) => {
     const game = currentGames[index];
+    if (!oneGameMode) {
+      currentGames[index].team1.score = team1Scores[0] + team1Scores[1] + team1Scores[2];
+      currentGames[index].team2.score = team2Scores[0] + team2Scores[1] + team2Scores[2];
+    }
     try {
       await axios.post('/log-game-result', game);
       alert('Game result logged successfully!');
@@ -310,25 +314,26 @@ function App() {
                             onChange={(e) => (team1Scores[2] = parseInt(e.target.value))}
                         />
                       </div>
-
-                      <input
-                          style={inputStyle}
-                          type="number"
-                          placeholder="Team 2 Score"
-                          onChange={(e) => (team2Scores[0] = parseInt(e.target.value))}
-                      />
-                      <input
-                          style={inputStyle}
-                          type="number"
-                          placeholder="Team 2 Score"
-                          onChange={(e) => (team2Scores[1] = parseInt(e.target.value))}
-                      />
-                      <input
-                          style={inputStyle}
-                          type="number"
-                          placeholder="Team 2 Score"
-                          onChange={(e) => (team2Scores[2] = parseInt(e.target.value))}
-                      />
+                      <div style={{display: 'flex', gap: '10px'}}>
+                        <input
+                            style={inputStyle}
+                            type="number"
+                            placeholder="Team 2 Score"
+                            onChange={(e) => (team2Scores[0] = parseInt(e.target.value))}
+                        />
+                        <input
+                            style={inputStyle}
+                            type="number"
+                            placeholder="Team 2 Score"
+                            onChange={(e) => (team2Scores[1] = parseInt(e.target.value))}
+                        />
+                        <input
+                            style={inputStyle}
+                            type="number"
+                            placeholder="Team 2 Score"
+                            onChange={(e) => (team2Scores[2] = parseInt(e.target.value))}
+                        />
+                      </div>
                     </>
 
                 }
