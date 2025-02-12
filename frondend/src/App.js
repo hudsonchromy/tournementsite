@@ -290,41 +290,44 @@ function App() {
                   </>
                     :
                     <>
+                      <div style={{display: 'flex', gap: '10px'}}>
+                        <input
+                            style={inputStyle}
+                            type="number"
+                            placeholder="Team 1 Score"
+                            onChange={(e) => (team1Scores[0] = parseInt(e.target.value))}
+                        />
+                        <input
+                            style={inputStyle}
+                            type="number"
+                            placeholder="Team 1 Score"
+                            onChange={(e) => (team1Scores[1] = parseInt(e.target.value))}
+                        />
+                        <input
+                            style={inputStyle}
+                            type="number"
+                            placeholder="Team 1 Score"
+                            onChange={(e) => (team1Scores[2] = parseInt(e.target.value))}
+                        />
+                      </div>
+
                       <input
                           style={inputStyle}
                           type="number"
-                          placeholder="Team 1 Score"
-                          onChange={(e) => (game.team1.score = parseInt(e.target.value))}
-                      />
-                      <input
-                          style={inputStyle}
-                          type="number"
-                          placeholder="Team 1 Score"
-                          onChange={(e) => (game.team1.score = parseInt(e.target.value))}
-                      />
-                      <input
-                          style={inputStyle}
-                          type="number"
-                          placeholder="Team 1 Score"
-                          onChange={(e) => (game.team1.score = parseInt(e.target.value))}
+                          placeholder="Team 2 Score"
+                          onChange={(e) => (team2Scores[0] = parseInt(e.target.value))}
                       />
                       <input
                           style={inputStyle}
                           type="number"
                           placeholder="Team 2 Score"
-                          onChange={(e) => (game.team2.score = parseInt(e.target.value))}
+                          onChange={(e) => (team2Scores[1] = parseInt(e.target.value))}
                       />
                       <input
                           style={inputStyle}
                           type="number"
                           placeholder="Team 2 Score"
-                          onChange={(e) => (game.team2.score = parseInt(e.target.value))}
-                      />
-                      <input
-                          style={inputStyle}
-                          type="number"
-                          placeholder="Team 2 Score"
-                          onChange={(e) => (game.team2.score = parseInt(e.target.value))}
+                          onChange={(e) => (team2Scores[2] = parseInt(e.target.value))}
                       />
                     </>
 
