@@ -33,6 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.post('/log-game-result', async (req, res) => {
+    console.log('log-game-result');
     const { team1, team2 } = req.body;
 
     if (!team1 || !team2 || team1.players.length !== 2 || team2.players.length !== 2 || team1.score === undefined || team2.score === undefined) {
@@ -109,6 +110,7 @@ app.get('/game-results', async (req, res) => {
 });
 
 app.get('/standings', async (req, res) => {
+    console.log('standings');
     try {
         const players = await playersCollection.aggregate([
             {
@@ -126,6 +128,7 @@ app.get('/standings', async (req, res) => {
 });
 
 app.get('/games-with-missing-scores', async (req, res) => {
+    console.log('games with missing scores');
     try {
         const games = await gamesCollection.find({ "team1.score": -1, "team2.score": -1 }).toArray();
         res.status(200).json(games);

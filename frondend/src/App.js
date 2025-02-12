@@ -19,6 +19,7 @@ function App() {
   const fetchStandings = async () => {
     try {
       const response = await axios.get('/standings');
+      console.log(response);
       setStandings(response.data);
     } catch (error) {
       console.error('Error fetching standings:', error);
