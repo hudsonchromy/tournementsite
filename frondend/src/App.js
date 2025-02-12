@@ -235,7 +235,7 @@ function App() {
             </tr>
             </thead>
             <tbody>
-            {standings.map((player) => (
+            {standings.map((player, index) => (
                 <tr key={player._id}>
                   <td style={tdStyle}>
                     {index === 0 && <FontAwesomeIcon icon={faTrophy} style={{marginRight: '5px', color: 'gold'}}/>}
