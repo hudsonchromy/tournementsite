@@ -241,7 +241,6 @@ function App() {
                     {index === 0 && <FontAwesomeIcon icon={faTrophy} style={{marginRight: '5px', color: 'gold'}}/>}
                     {player.name}
                   </td>
-                  <td style={tdStyle}>{player.name}</td>
                   <td style={tdStyle}>{player.wins}</td>
                   <td style={tdStyle}>{player.losses}</td>
                   <td style={tdStyle}>{player.pointDifferential}</td>
