@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import bgImage from './logo-small.png';
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 
 
 function App() {
@@ -235,6 +237,10 @@ function App() {
             <tbody>
             {standings.map((player) => (
                 <tr key={player._id}>
+                  <td style={tdStyle}>
+                    {index === 0 && <FontAwesomeIcon icon={faTrophy} style={{marginRight: '5px', color: 'gold'}}/>}
+                    {player.name}
+                  </td>
                   <td style={tdStyle}>{player.name}</td>
                   <td style={tdStyle}>{player.wins}</td>
                   <td style={tdStyle}>{player.losses}</td>
