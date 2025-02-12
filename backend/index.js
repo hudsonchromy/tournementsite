@@ -18,6 +18,11 @@ mongoose.connect(process.env.MONGO_URI || 'your-atlas-connection-uri', {
     .then(() => console.log("Connected to MongoDB"))
     .catch(err => console.error("Error connecting to MongoDB:", err));
 
+const client = mongoose.connection.getClient();
+const db = client.db("tournamentDB");
+const gamesCollection = db.collection("games");
+const playersCollection = db.collection("players");
+
 // Serve static files from the React app
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
@@ -26,15 +31,6 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
     });
 }
-
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
-
-
-const db = client.db("tournamentDB");
-const gamesCollection = db.collection("games");
-const playersCollection = db.collection("players");
 
 app.post('/log-game-result', async (req, res) => {
     const { team1, team2 } = req.body;
@@ -81,11 +77,10 @@ app.post('/log-game-result', async (req, res) => {
     }
 });
 
-
 async function updatePlayerStandings(team, teamScore, opponentScore) {
     const isWinner = teamScore > opponentScore;
     const pointDiff = teamScore - opponentScore;
-    if(teamScore === -1 && opponentScore === -1) {
+    if (teamScore === -1 && opponentScore === -1) {
         return;
     }
     for (const player of team.players) {
