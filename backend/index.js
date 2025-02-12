@@ -25,10 +25,10 @@ const playersCollection = db.collection("players");
 
 // Serve static files from the React app
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../frontend/build')));
+    app.use(express.static(path.join(__dirname, '../frondend/build')));
 
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+        res.sendFile(path.join(__dirname, '../frondend/build', 'index.html'));
     });
 }
 
