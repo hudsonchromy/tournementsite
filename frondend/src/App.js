@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import bgImage from './logo-small.png';
+import './App.css';
 
 
 function App() {
@@ -10,6 +11,9 @@ function App() {
   const [showAddGameScreen, setShowAddGameScreen] = useState(false);
   const [newGamePlayers, setNewGamePlayers] = useState(['', '', '', '']);
   const [newGameText, setNewGameText] = useState('');
+  const [oneGameMode, setOneGameMode] = useState(true);
+  const [team1Scores, setTeam1Scores] = useState([0,0,0]);
+  const [team2Scores, setTeam2Scores] = useState([0,0,0]);
 
   useEffect(() => {
     fetchStandings();
@@ -125,7 +129,7 @@ function App() {
     backgroundColor: '#fff',
     height: '100%',
     overflow: 'auto',
-    maxHeight: '90vh',
+    maxHeight: '87vh',
     alignItems: 'center', // Centers all content horizontally
     textAlign: 'center', // Ensures text is centered
   };
@@ -255,7 +259,7 @@ function App() {
             ))}
           </ul>
           <button style={buttonStyle} onClick={() => setShowAddGameScreen(true)} hidden={false}>
-            Add Game
+            Settings
           </button>
         </div>
 
@@ -267,18 +271,66 @@ function App() {
                 <h3>
                   {game.team1.players.join(' & ')} vs {game.team2.players.join(' & ')}
                 </h3>
-                <input
-                    style={inputStyle}
-                    type="number"
-                    placeholder="Team 1 Score"
-                    onChange={(e) => (game.team1.score = parseInt(e.target.value))}
-                />
-                <input
-                    style={inputStyle}
-                    type="number"
-                    placeholder="Team 2 Score"
-                    onChange={(e) => (game.team2.score = parseInt(e.target.value))}
-                />
+
+
+                {oneGameMode ?
+                    <>
+                  <input
+                      style={inputStyle}
+                      type="number"
+                      placeholder="Team 1 Score"
+                      onChange={(e) => (game.team1.score = parseInt(e.target.value))}
+                  />
+                  <input
+                      style={inputStyle}
+                      type="number"
+                      placeholder="Team 2 Score"
+                      onChange={(e) => (game.team2.score = parseInt(e.target.value))}
+                  />
+                  </>
+                    :
+                    <>
+                      <input
+                          style={inputStyle}
+                          type="number"
+                          placeholder="Team 1 Score"
+                          onChange={(e) => (game.team1.score = parseInt(e.target.value))}
+                      />
+                      <input
+                          style={inputStyle}
+                          type="number"
+                          placeholder="Team 1 Score"
+                          onChange={(e) => (game.team1.score = parseInt(e.target.value))}
+                      />
+                      <input
+                          style={inputStyle}
+                          type="number"
+                          placeholder="Team 1 Score"
+                          onChange={(e) => (game.team1.score = parseInt(e.target.value))}
+                      />
+                      <input
+                          style={inputStyle}
+                          type="number"
+                          placeholder="Team 2 Score"
+                          onChange={(e) => (game.team2.score = parseInt(e.target.value))}
+                      />
+                      <input
+                          style={inputStyle}
+                          type="number"
+                          placeholder="Team 2 Score"
+                          onChange={(e) => (game.team2.score = parseInt(e.target.value))}
+                      />
+                      <input
+                          style={inputStyle}
+                          type="number"
+                          placeholder="Team 2 Score"
+                          onChange={(e) => (game.team2.score = parseInt(e.target.value))}
+                      />
+                    </>
+
+                }
+
+
                 <div style={buttonContainerStyle}>
                   <button style={buttonStyle} onClick={() => handleGameSubmit(index)}>
                     Submit
@@ -301,14 +353,20 @@ function App() {
                   placeholder="Enter games, one per line (e.g., player1 player2 player3 player4)"
                   value={newGameText}
                   onChange={(e) => setNewGameText(e.target.value)}
-                  style={{ width: '100%', padding: '10px', borderRadius: '4px', border: `1px solid ${primaryColor}` }}
+                  style={{width: '100%', padding: '10px', borderRadius: '4px', border: `1px solid ${primaryColor}`}}
               />
               <button onClick={handleAddGame}>Add Games</button>
+              <button onClick={() => setOneGameMode(prevState => !prevState)}>
+                {oneGameMode ? 'Switch to 2/3' : 'Switch to 1'}
+              </button>
               <button onClick={() => setShowAddGameScreen(false)}>Cancel</button>
             </div>
-        )}
+        )
+        }
+
       </div>
-  );
+  )
+      ;
 }
 
 export default App;
