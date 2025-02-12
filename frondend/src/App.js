@@ -5,13 +5,11 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 
-
 function App() {
   const [standings, setStandings] = useState([]);
   const [recommendedGames, setRecommendedGames] = useState([]);
   const [currentGames, setCurrentGames] = useState([]);
   const [showAddGameScreen, setShowAddGameScreen] = useState(false);
-  const [newGamePlayers, setNewGamePlayers] = useState(['', '', '', '']);
   const [newGameText, setNewGameText] = useState('');
   const [oneGameMode, setOneGameMode] = useState(true);
   const [team1Scores, setTeam1Scores] = useState([0,0,0]);
@@ -43,13 +41,9 @@ function App() {
   };
 
   const moveToCurrentGames = (game) => {
-    console.log(game);
-    console.log(currentGames);
     if (currentGames.length < 3) {
       setCurrentGames([...currentGames, game]);
-      console.log(recommendedGames.filter((g) => g._id !== game._id));
-      console.log(recommendedGames);
-      setRecommendedGames(recommendedGames.filter((g) => {console.log(g._id, game._id, g._id !== game._id); return g._id !== game._id}));
+      setRecommendedGames(recommendedGames.filter((g) => g._id !== game._id));
     } else {
       alert('Only 3 games can be active at a time.');
     }
@@ -110,19 +104,19 @@ function App() {
 
   // Styles
   const primaryColor = '#082F14';
-  const backgroundColor = '#f1f4f1'; // light background to contrast with dark primary color
-  const backgroundImageUrl = 'logo.png'; // Replace with your actual image URL
+  const backgroundColor = '#f1f4f1';
 
   const containerStyle = {
     display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'space-around',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
     backgroundColor: backgroundColor,
     backgroundImage: `url(${bgImage})`,
     backgroundRepeat: 'repeat',
-    height: '100vh',
-    overflow: 'hidden'
+    minHeight: '100vh',
+    overflow: 'hidden',
   };
 
   const columnStyle = {
@@ -136,8 +130,7 @@ function App() {
     height: '100%',
     overflow: 'auto',
     maxHeight: '87vh',
-    alignItems: 'center', // Centers all content horizontally
-    textAlign: 'center', // Ensures text is centered
+    textAlign: 'center',
   };
 
   const tableStyle = {
@@ -175,7 +168,7 @@ function App() {
 
   const inputStyle = {
     padding: '10px',
-    width: 'calc(50% - 20px)',
+    width: 'calc(50% - 20px)', // Calculation adjusted for consistent spacing
     margin: '10px 0',
     border: `1px solid ${primaryColor}`,
     borderRadius: '4px',
@@ -189,7 +182,6 @@ function App() {
     borderRadius: '5px',
     marginTop: 0
   };
-
 
   const cardStyle = {
     marginBottom: 10,
@@ -220,166 +212,183 @@ function App() {
     marginTop: '10px',
   };
 
+  // Media Query for Mobile devices
+  const mobileStyle = {
+    '@media (max-width: 768px)': {
+      containerStyle: {
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
+      columnStyle: {
+        width: '100%',
+        marginBottom: '10px',
+      },
+      h2Style: {
+        fontSize: '1.2em',
+      },
+      tableStyle: {
+        fontSize: '0.9em',
+      },
+      buttonStyle: {
+        padding: '8px 16px',
+      },
+      inputStyle: {
+        width: 'calc(100% - 20px)', // Adjust for full width
+      }
+    }
+  };
+
   return (
-      <div className="App" style={containerStyle}>
-        {/* Leaderboard Column */}
-        <div style={columnStyle}>
-          <h2 style={h2Style}>Leaderboard</h2>
-          <table style={tableStyle}>
-            <thead>
+    <div className="App" style={{ ...containerStyle, ...mobileStyle.containerStyle }}>
+      {/* Leaderboard Column */}
+      <div style={{ ...columnStyle, ...mobileStyle.columnStyle }}>
+        <h2 style={{ ...h2Style, ...mobileStyle.h2Style }}>Leaderboard</h2>
+        <table style={tableStyle}>
+          <thead>
             <tr>
               <th style={thStyle}>Player</th>
               <th style={thStyle}>Wins</th>
               <th style={thStyle}>Losses</th>
               <th style={thStyle}>Point Differential</th>
             </tr>
-            </thead>
-            <tbody>
+          </thead>
+          <tbody>
             {standings.map((player, index) => (
-                <tr key={player._id}>
-                  <td style={tdStyle}>
-                    {index === 0 && <FontAwesomeIcon icon={faTrophy} style={{marginRight: '5px', color: 'gold'}}/>}
-                    {player.name}
-                  </td>
-                  <td style={tdStyle}>{player.wins}</td>
-                  <td style={tdStyle}>{player.losses}</td>
-                  <td style={tdStyle}>{player.pointDifferential}</td>
-                </tr>
+              <tr key={player._id}>
+                <td style={tdStyle}>
+                  {index === 0 && <FontAwesomeIcon icon={faTrophy} style={{ marginRight: '5px', color: 'gold' }} />}
+                  {player.name}
+                </td>
+                <td style={tdStyle}>{player.wins}</td>
+                <td style={tdStyle}>{player.losses}</td>
+                <td style={tdStyle}>{player.pointDifferential}</td>
+              </tr>
             ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Recommended Games Column */}
-        <div style={columnStyle}>
-          <h2 style={h2Style}>Recommended Games</h2>
-          <ul>
-            {recommendedGames.map((game) => (
-                <div key={game.id} style={cardStyle}>
-              <span>
-               {game.team1.players.join(' & ')} vs {game.team2.players.join(' & ')}
-              </span>
-                  <div style={buttonContainerStyle}>
-                    <button style={buttonStyle} onClick={() => moveToCurrentGames(game)}>
-                      Move to Current
-                    </button>
-                  </div>
-                </div>
-            ))}
-          </ul>
-          <button style={buttonStyle} onClick={() => setShowAddGameScreen(true)} hidden={false}>
-            Settings
-          </button>
-        </div>
-
-        {/* Current Games Column */}
-        <div style={columnStyle}>
-          <h2 style={h2Style}>Current Games</h2>
-          {currentGames.map((game, index) => (
-              <div key={index} style={cardStyle}>
-                <h3>
-                  {game.team1.players.join(' & ')} vs {game.team2.players.join(' & ')}
-                </h3>
-
-
-                {oneGameMode ?
-                    <>
-                  <input
-                      style={inputStyle}
-                      type="number"
-                      placeholder="Team 1 Score"
-                      onChange={(e) => (game.team1.score = parseInt(e.target.value))}
-                  />
-                  <input
-                      style={inputStyle}
-                      type="number"
-                      placeholder="Team 2 Score"
-                      onChange={(e) => (game.team2.score = parseInt(e.target.value))}
-                  />
-                  </>
-                    :
-                    <>
-                      <div style={{display: 'flex', gap: '10px'}}>
-                        <input
-                            style={inputStyle}
-                            type="number"
-                            placeholder="Team 1 Score"
-                            onChange={(e) => (team1Scores[0] = parseInt(e.target.value))}
-                        />
-                        <input
-                            style={inputStyle}
-                            type="number"
-                            placeholder="Team 1 Score"
-                            onChange={(e) => (team1Scores[1] = parseInt(e.target.value))}
-                        />
-                        <input
-                            style={inputStyle}
-                            type="number"
-                            placeholder="Team 1 Score"
-                            onChange={(e) => (team1Scores[2] = parseInt(e.target.value))}
-                        />
-                      </div>
-                      <div style={{display: 'flex', gap: '10px'}}>
-                        <input
-                            style={inputStyle}
-                            type="number"
-                            placeholder="Team 2 Score"
-                            onChange={(e) => (team2Scores[0] = parseInt(e.target.value))}
-                        />
-                        <input
-                            style={inputStyle}
-                            type="number"
-                            placeholder="Team 2 Score"
-                            onChange={(e) => (team2Scores[1] = parseInt(e.target.value))}
-                        />
-                        <input
-                            style={inputStyle}
-                            type="number"
-                            placeholder="Team 2 Score"
-                            onChange={(e) => (team2Scores[2] = parseInt(e.target.value))}
-                        />
-                      </div>
-                    </>
-
-                }
-
-
-                <div style={buttonContainerStyle}>
-                  <button style={buttonStyle} onClick={() => handleGameSubmit(index)}>
-                    Submit
-                  </button>
-                  <button style={{margin: 4}} onClick={() => removeFromCurrentGames(index)}>
-                    X
-                  </button>
-                </div>
-
-              </div>
-          ))}
-        </div>
-
-        {/* Add Recommended Game Screen */}
-        {showAddGameScreen && (
-            <div className="modal" style={modalStyle}>
-              <h2>Add Recommended Games</h2>
-              <textarea
-                  rows="5"
-                  placeholder="Enter games, one per line (e.g., player1 player2 player3 player4)"
-                  value={newGameText}
-                  onChange={(e) => setNewGameText(e.target.value)}
-                  style={{width: '100%', padding: '10px', borderRadius: '4px', border: `1px solid ${primaryColor}`}}
-              />
-              <button onClick={handleAddGame}>Add Games</button>
-              <button onClick={() => setOneGameMode(prevState => !prevState)}>
-                {oneGameMode ? 'Switch to 2/3' : 'Switch to 1'}
-              </button>
-              <button onClick={() => setShowAddGameScreen(false)}>Cancel</button>
-            </div>
-        )
-        }
-
+          </tbody>
+        </table>
       </div>
-  )
-      ;
+
+      {/* Recommended Games Column */}
+      <div style={{ ...columnStyle, ...mobileStyle.columnStyle }}>
+        <h2 style={{ ...h2Style, ...mobileStyle.h2Style }}>Recommended Games</h2>
+        <ul>
+          {recommendedGames.map((game) => (
+            <div key={game.id} style={cardStyle}>
+              <span>
+                {game.team1.players.join(' & ')} vs {game.team2.players.join(' & ')}
+              </span>
+              <div style={buttonContainerStyle}>
+                <button style={buttonStyle} onClick={() => moveToCurrentGames(game)}>
+                  Move to Current
+                </button>
+              </div>
+            </div>
+          ))}
+        </ul>
+        <button style={buttonStyle} onClick={() => setShowAddGameScreen(true)} hidden={false}>
+          Settings
+        </button>
+      </div>
+
+      {/* Current Games Column */}
+      <div style={{ ...columnStyle, ...mobileStyle.columnStyle }}>
+        <h2 style={{ ...h2Style, ...mobileStyle.h2Style }}>Current Games</h2>
+        {currentGames.map((game, index) => (
+          <div key={index} style={cardStyle}>
+            <h3>
+              {game.team1.players.join(' & ')} vs {game.team2.players.join(' & ')}
+            </h3>
+            {oneGameMode ? (
+              <>
+                <input
+                  style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                  type="number"
+                  placeholder="Team 1 Score"
+                  onChange={(e) => (game.team1.score = parseInt(e.target.value))}
+                />
+                <input
+                  style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                  type="number"
+                  placeholder="Team 2 Score"
+                  onChange={(e) => (game.team2.score = parseInt(e.target.value))}
+                />
+              </>
+            ) : (
+              <>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <input
+                    style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                    type="number"
+                    placeholder="Team 1 Score"
+                    onChange={(e) => (team1Scores[0] = parseInt(e.target.value))}
+                  />
+                  <input
+                    style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                    type="number"
+                    placeholder="Team 1 Score"
+                    onChange={(e) => (team1Scores[1] = parseInt(e.target.value))}
+                  />
+                  <input
+                    style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                    type="number"
+                    placeholder="Team 1 Score"
+                    onChange={(e) => (team1Scores[2] = parseInt(e.target.value))}
+                  />
+                </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <input
+                    style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                    type="number"
+                    placeholder="Team 2 Score"
+                    onChange={(e) => (team2Scores[0] = parseInt(e.target.value))}
+                  />
+                  <input
+                    style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                    type="number"
+                    placeholder="Team 2 Score"
+                    onChange={(e) => (team2Scores[1] = parseInt(e.target.value))}
+                  />
+                  <input
+                    style={{ ...inputStyle, ...mobileStyle.inputStyle }}
+                    type="number"
+                    placeholder="Team 2 Score"
+                    onChange={(e) => (team2Scores[2] = parseInt(e.target.value))}
+                  />
+                </div>
+              </>
+            )}
+            <div style={buttonContainerStyle}>
+              <button style={buttonStyle} onClick={() => handleGameSubmit(index)}>
+                Submit
+              </button>
+              <button style={{ margin: 4 }} onClick={() => removeFromCurrentGames(index)}>
+                X
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Add Recommended Game Screen */}
+      {showAddGameScreen && (
+        <div className="modal" style={modalStyle}>
+          <h2>Add Recommended Games</h2>
+          <textarea
+            rows="5"
+            placeholder="Enter games, one per line (e.g., player1 player2 player3 player4)"
+            value={newGameText}
+            onChange={(e) => setNewGameText(e.target.value)}
+            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: `1px solid ${primaryColor}` }}
+          />
+          <button onClick={handleAddGame}>Add Games</button>
+          <button onClick={() => setOneGameMode(prevState => !prevState)}>
+            {oneGameMode ? 'Switch to 2/3' : 'Switch to 1'}
+          </button>
+          <button onClick={() => setShowAddGameScreen(false)}>Cancel</button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App;
