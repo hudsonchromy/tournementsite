@@ -25,6 +25,7 @@ const playersCollection = db.collection("players");
 
 // Serve static files from the React app
 if (process.env.NODE_ENV === 'production') {
+    console.log('-------------------------here-------------------------');
     app.use(express.static(path.join(__dirname, '../frondend/build')));
 
     app.get('*', (req, res) => {
