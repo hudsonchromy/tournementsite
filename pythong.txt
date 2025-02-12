@@ -1,0 +1,37 @@
+from collections import defaultdict
+
+# The list of games
+games = [(('Junior', 'Carolina'), ('Paige', 'Taylor')), (('Matt', 'Cindy'), ('Roz', 'AnnieKate')), (('Cindy', 'Taylor'), ('AnnieKate', 'Hudson')), (('Cindy', 'Abigail'), ('Krystal', 'Taylor')), (('Roz', 'Nick'), ('AnnieKate', 'Krystal')), (('Krystal', 'Abigail'), ('Roz', 'Zach')), (('Paige', 'Junior'), ('Laurie', 'Krystal')), (('Laurie', 'Paige'), ('Nick', 'Zach')), (('Paige', 'Cindy'), ('Al', 'Laurie')), (('Carolina', 'Abigail'), ('Hudson', 'Krystal')), (('Matt', 'Taylor'), ('Paige', 'Roz')), (('Al', 'Matt'), ('Nick', 'Abigail')), (('Hudson', 'Zach'), ('Nick', 'Taylor')), (('Laurie', 'Roz'), ('Paige', 'Zach')), (('Matt', 'Nick'), ('Taylor', 'Abigail')), (('Nick', 'Cindy'), ('Laurie', 'Hudson')), (('Matt', 'Carolina'), ('Paige', 'Amelia')), (('Amelia', 'Carolina'), ('Roz', 'Hudson')), (('Amelia', 'Zach'), ('Hudson', 'Taylor')), (('Amelia', 'Hudson'), ('Matt', 'Roz')), (('Roz', 'Amelia'), ('Paige', 'Matt')), (('Al', 'Amelia'), ('Carolina', 'Krystal')), (('Laurie', 'Amelia'), ('Al', 'Taylor')), (('Roz', 'Junior'), ('AnnieKate', 'Nick')), (('Al', 'AnnieKate'), ('Amelia', 'Junior')), (('Al', 'Krystal'), ('Cindy', 'Zach')), (('Al', 'Paige'), ('AnnieKate', 'Zach')), (('Al', 'Carolina'), ('Laurie', 'AnnieKate')), (('Al', 'Cindy'), ('Taylor', 'Zach')), (('Al', 'Hudson'), ('AnnieKate', 'Cindy')), (('Junior', 'Krystal'), ('AnnieKate', 'Carolina')), (('Abigail', 'Zach'), ('Laurie', 'Nick')), (('Junior', 'Hudson'), ('Nick', 'Amelia')), (('Roz', 'Abigail'), ('Laurie', 'Taylor')), (('Matt', 'AnnieKate'), ('Nick', 'Carolina')), (('Paige', 'Nick'), ('Roz', 'Taylor')), (('Krystal', 'Zach'), ('Roz', 'Carolina')), (('Nick', 'Hudson'), ('Roz', 'Krystal')), (('Hudson', 'Carolina'), ('Laurie', 'Matt')), (('Hudson', 'Abigail'), ('Paige', 'Carolina')), (('Laurie', 'Zach'), ('Paige', 'Hudson')), (('Paige', 'Krystal'), ('Hudson', 'Cindy')), (('AnnieKate', 'Taylor'), ('Junior', 'Abigail')), (('Cindy', 'Krystal'), ('Carolina', 'Zach')), (('Matt', 'Krystal'), ('Junior', 'Taylor')), (('Matt', 'Junior'), ('Laurie', 'Cindy')), (('Carolina', 'Cindy'), ('Amelia', 'Abigail')), (('Matt', 'Abigail'), ('Laurie', 'Carolina')), (('Matt', 'Zach'), ('Al', 'Abigail')), (('Paige', 'AnnieKate'), ('Junior', 'Zach')), (('Matt', 'Amelia'), ('AnnieKate', 'Abigail')), (('AnnieKate', 'Amelia'), ('Al', 'Junior')), (('Amelia', 'Taylor'), ('Nick', 'Krystal')), (('Al', 'Nick'), ('Roz', 'Cindy')), (('Nick', 'Junior'), ('Laurie', 'Abigail')), (('AnnieKate', 'Junior'), ('Al', 'Roz')), (('Al', 'Zach'), ('Matt', 'Hudson')), (('Amelia', 'Cindy'), ('Laurie', 'Junior')), (('Amelia', 'Krystal'), ('Carolina', 'Taylor')), (('Paige', 'Abigail'), ('Junior', 'Cindy'))]
+
+# Dictionary to store the count of matchups
+matchup_count = defaultdict(lambda: defaultdict(int))
+
+# Iterate through the games and count matchups
+for game in games:
+    team1, team2 = game
+    for player1 in team1:
+        for player2 in team2:
+            matchup_count[player1][player2] += 1
+            matchup_count[player2][player1] += 1
+
+# Print the results
+print("Matchup counts:")
+for player1 in matchup_count:
+    for player2 in matchup_count[player1]:
+        print(f"{player1} vs {player2}: {matchup_count[player1][player2]} times")
+
+# Optional: Display the results in a more readable format
+print("\nReadable matchup matrix:")
+players = [
+    "Al", "Laurie", "Paige", "Matt", "Roz", "AnnieKate", "Nick", 
+    "Amelia", "Junior", "Hudson", "Carolina", "Cindy", 
+    "Krystal", "Taylor", "Abigail", "Zach"
+]
+
+header = "\t" + "\t".join(players)
+print(header)
+for player1 in players:
+    row = [player1]
+    for player2 in players:
+        row.append(str(matchup_count[player1][player2]))
+    print("\t".join(row))

@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fb6a2e9-77bb-4461-9ef0-5e230a64eae8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.pickleball-backend.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.pickleball-backend.dir/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="4fb6a2e9-77bb-4461-9ef0-5e230a64eae8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,6 +57,7 @@
       <workItem from="1739280523111" duration="1330000" />
       <workItem from="1739301398275" duration="1515000" />
       <workItem from="1739304562972" duration="10458000" />
+      <workItem from="1739379591979" duration="723000" />
     </task>
     <servers />
   </component>

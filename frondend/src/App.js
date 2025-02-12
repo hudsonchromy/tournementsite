@@ -13,7 +13,7 @@ function App() {
   const [showAddGameScreen, setShowAddGameScreen] = useState(false);
   const [newGamePlayers, setNewGamePlayers] = useState(['', '', '', '']);
   const [newGameText, setNewGameText] = useState('');
-  const [oneGameMode, setOneGameMode] = useState(true);
+  const [oneGameMode, setOneGameMode] = useState(false);
   const [team1Scores, setTeam1Scores] = useState([0,0,0]);
   const [team2Scores, setTeam2Scores] = useState([0,0,0]);
 
