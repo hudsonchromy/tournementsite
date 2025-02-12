@@ -11,7 +11,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || 'your-atlas-connection-uri', {
+const mongoUri = process.env.MONGO_URI || 'your-atlas-connection-uri';
+mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -23,16 +24,7 @@ const db = client.db("tournamentDB");
 const gamesCollection = db.collection("games");
 const playersCollection = db.collection("players");
 
-// Serve static files from the React app
-if (process.env.NODE_ENV === 'production') {
-    console.log('-------------------------here-------------------------');
-    app.use(express.static(path.join(__dirname, '../frondend/build')));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../frondend/build', 'index.html'));
-    });
-}
-
+// Define API routes
 app.post('/log-game-result', async (req, res) => {
     console.log('log-game-result');
     const { team1, team2 } = req.body;
@@ -138,6 +130,16 @@ app.get('/games-with-missing-scores', async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
+// Serve static files from the React app in production mode
+if (process.env.NODE_ENV === 'production') {
+    console.log('-------------------------here-------------------------');
+    app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+    });
+}
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
