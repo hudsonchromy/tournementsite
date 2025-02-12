@@ -1,0 +1,12 @@
+{
+  "name": "my-heroku-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd backend && npm install && npm start",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
