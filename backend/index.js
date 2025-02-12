@@ -27,6 +27,7 @@ const playersCollection = db.collection("players");
 // Define API routes
 app.post('/log-game-result', async (req, res) => {
     console.log('log-game-result');
+    console.log('--score log--', req.body);
     const { team1, team2 } = req.body;
 
     if (!team1 || !team2 || team1.players.length !== 2 || team2.players.length !== 2 || team1.score === undefined || team2.score === undefined) {
