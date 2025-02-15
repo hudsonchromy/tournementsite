@@ -122,8 +122,16 @@ function App() {
     }, 0);
   };
 
-  // Sort games with the custom sorting logic
-  const sortedGames = recommendedGames.sort((a, b) => {
+  const currentPlayers = new Set(
+      currentGames.flatMap(game => [...game.team1.players, ...game.team2.players])
+  );
+
+  const filteredGames = recommendedGames.filter(game =>
+      !game.team1.players.some(player => currentPlayers.has(player)) &&
+      !game.team2.players.some(player => currentPlayers.has(player))
+  );
+
+  const sortedGames = filteredGames.sort((a, b) => {
     // Get the lowest wins + losses total for each game
     const aPlayers = [...a.team1.players, ...a.team2.players];
     const bPlayers = [...b.team1.players, ...b.team2.players];
