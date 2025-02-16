@@ -55,23 +55,29 @@ function App() {
     }
   };
 
-  const handleGameSubmit = async (index) => {
-    const game = currentGames[index];
+  const handleGameSubmit = (index) => {
+    setGameToSubmit(index);
+    setShowConfirmModal(true);
+  };
+
+  const confirmGameSubmit = async () => {
+    if (gameToSubmit === null) return;
+    const game = currentGames[gameToSubmit];
     if (!oneGameMode) {
-      currentGames[index].team1.score = team1Scores[0] + team1Scores[1] + team1Scores[2];
-      currentGames[index].team2.score = team2Scores[0] + team2Scores[1] + team2Scores[2];
+      game.team1.score = team1Scores.reduce((a, b) => a + b, 0);
+      game.team2.score = team2Scores.reduce((a, b) => a + b, 0);
     }
     try {
       await axios.post('/log-game-result', game);
       alert('Game result logged successfully!');
-      const updatedGames = [...currentGames];
-      updatedGames.splice(index, 1);
-      setCurrentGames(updatedGames);
+      setCurrentGames(currentGames.filter((_, i) => i !== gameToSubmit));
       fetchStandings();
     } catch (error) {
       console.error('Error logging game result:', error);
       alert('Error logging game result.');
     }
+    setShowConfirmModal(false);
+    setGameToSubmit(null);
   };
 
   const handleAddGame = async () => {
@@ -388,9 +394,7 @@ function App() {
 
 
                 <div style={buttonContainerStyle}>
-                  <button style={buttonStyle} onClick={() => handleGameSubmit(index)}>
-                    Submit
-                  </button>
+                  <button onClick={() => handleGameSubmit(index)}>Submit</button>
                   <button style={{margin: 4}} onClick={() => removeFromCurrentGames(index)}>
                     X
                   </button>
@@ -399,6 +403,15 @@ function App() {
               </div>
           ))}
         </div>
+
+        {showConfirmModal && (
+            <div className="modal">
+              <h2>Confirm Score Submission</h2>
+              <p>Are you sure you want to submit the scores?</p>
+              <button onClick={confirmGameSubmit}>Yes, Submit</button>
+              <button onClick={() => setShowConfirmModal(false)}>Cancel</button>
+            </div>
+        )}
 
         {/* Add Recommended Game Screen */}
         {showAddGameScreen && (
