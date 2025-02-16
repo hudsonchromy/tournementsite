@@ -71,7 +71,7 @@ function App() {
     }
     try {
       await axios.post('/log-game-result', game);
-      alert('Game result logged successfully!');
+      alert('PLEASE CHECK YOUR STANDINGS UPDATED CORRECTLY!');
       setCurrentGames(currentGames.filter((_, i) => i !== gameToSubmit));
       fetchStandings();
     } catch (error) {
@@ -411,7 +411,7 @@ function App() {
               <h2>Confirm Score Submission</h2>
               <p>Are you sure you want to submit the scores?</p>
               <p>{currentGames[gameToSubmit].team1.players.join(' - ')} {team1Scores.join(' - ')}</p>
-              <p>{currentGames[gameToSubmit].team2.players} {team2Scores}</p>
+              <p>{currentGames[gameToSubmit].team2.players.join(' - ')} {team2Scores.join(' - ')}</p>
               <button onClick={confirmGameSubmit}>Yes, Submit</button>
               <button onClick={() => setShowConfirmModal(false)}>Cancel</button>
             </div>
