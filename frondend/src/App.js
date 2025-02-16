@@ -16,6 +16,8 @@ function App() {
   const [oneGameMode, setOneGameMode] = useState(false);
   const [team1Scores, setTeam1Scores] = useState([0,0,0]);
   const [team2Scores, setTeam2Scores] = useState([0,0,0]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [gameToSubmit, setGameToSubmit] = useState(null);
 
   useEffect(() => {
     fetchStandings();
