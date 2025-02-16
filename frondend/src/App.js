@@ -66,11 +66,13 @@ function App() {
     if (gameToSubmit === null) return;
     const game = currentGames[gameToSubmit];
     if (!oneGameMode) {
-      game.team1.score = team1Scores.reduce((a, b) => a + b, 0);
-      game.team2.score = team2Scores.reduce((a, b) => a + b, 0);
+      game.team1.score = team1Scores[0] ?? 0 + team1Scores[1] ?? 0 + team1Scores[2] ?? 0;
+      game.team2.score = team2Scores[0] ?? 0 + team2Scores[1] ?? 0 + team2Scores[2] ?? 0;
     }
     try {
       await axios.post('/log-game-result', game);
+      setTeam2Scores([0,0,0]);
+      setTeam1Scores([0,0,0]);
       alert('PLEASE CHECK YOUR STANDINGS UPDATED CORRECTLY!');
       setCurrentGames(currentGames.filter((_, i) => i !== gameToSubmit));
       fetchStandings();
