@@ -410,7 +410,8 @@ function App() {
             <div className="modal" style={modalStyle}>
               <h2>Confirm Score Submission</h2>
               <p>Are you sure you want to submit the scores?</p>
-              <p>{currentGames[gameToSubmit]}</p>
+              <p>{currentGames[gameToSubmit].team1.players} {team1Scores}</p>
+              <p>{currentGames[gameToSubmit].team2.players} {team2Scores}</p>
               <button onClick={confirmGameSubmit}>Yes, Submit</button>
               <button onClick={() => setShowConfirmModal(false)}>Cancel</button>
             </div>
