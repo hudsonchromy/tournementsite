@@ -407,9 +407,10 @@ function App() {
         </div>
 
         {showConfirmModal && (
-            <div className="modal">
+            <div className="modal" style={modalStyle}>
               <h2>Confirm Score Submission</h2>
               <p>Are you sure you want to submit the scores?</p>
+              <p>{gameToSubmit}</p>
               <button onClick={confirmGameSubmit}>Yes, Submit</button>
               <button onClick={() => setShowConfirmModal(false)}>Cancel</button>
             </div>
